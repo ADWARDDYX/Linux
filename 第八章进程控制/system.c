@@ -6,6 +6,6 @@
 
 int main(void)
 {
-    system("ps(1)");
+    system("ps(l)");
     exit(0);
 }
