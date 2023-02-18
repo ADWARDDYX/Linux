@@ -1,0 +1,13 @@
+thread stared...
+parent about to fork..
+preparing locks..
+parent unlocking locks..
+parent returned from fork
+thread stared...
+parent about to fork..
+preparing locks..
+child unlocking locks..
+child returned form fork
+就像人们首先会猜到的，这并不是一个多线程问题。这些标准I/O例程事实上是线程安全的,我们调用fork时，每个进程获得了标准IO数据结构的一份副本.
+程序运行时把标准输出定向到终端时，输出是行缓冲的，所以每次打印一行时， 标准IO库就把该行写到终端上。如果把标准输出重定向到文件的话，则标准输出就是全缓冲的。当缓冲区满或者进程关闭流时，输出才会写到文件。
+在这个例子中，执行fork时，缓冲区中包含了还未写的几个打印行，所以当父进程和子进程最终冲洗缓冲区中的副本时，最初的复制内容就会写入文件
